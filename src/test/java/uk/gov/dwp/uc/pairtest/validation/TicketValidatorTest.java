@@ -3,6 +3,7 @@ package uk.gov.dwp.uc.pairtest.validation;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.NULL_ACCOUNT_ID;
@@ -49,5 +50,10 @@ public class TicketValidatorTest {
                 INVALID_ACCOUNT_ID,
                 exception.getMessage()
         );
+    }
+
+    @Test
+    void shouldAcceptPositiveAccountId() {
+        assertDoesNotThrow(() -> validator.validateAccount(1L));
     }
 }
