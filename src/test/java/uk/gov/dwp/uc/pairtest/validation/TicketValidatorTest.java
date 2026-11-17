@@ -204,4 +204,22 @@ public class TicketValidatorTest {
         );
     }
 
+    @ParameterizedTest
+    @CsvSource({
+            "2, 0, 2",
+            "5, 3, 2",
+            "10, 5, 0"
+    })
+    void shouldAcceptInfantCountNotExceedingAdultCount(
+            int adults,
+            int children,
+            int infants) {
+
+        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+
+        assertDoesNotThrow(
+                () -> validator.validatePurchase(counts)
+        );
+    }
+
 }
