@@ -94,4 +94,24 @@ public class TicketValidatorTest {
                 exception.getMessage()
         );
     }
+
+    @Test
+    void shouldAcceptSingleValidTicketRequest() {
+        assertDoesNotThrow(
+                () -> validator.validateRequests(
+                        new TicketTypeRequest(Type.ADULT, 1)
+                )
+        );
+    }
+
+    @Test
+    void shouldAcceptMultipleValidTicketRequests() {
+        assertDoesNotThrow(
+                () -> validator.validateRequests(
+                        new TicketTypeRequest(Type.ADULT, 2),
+                        new TicketTypeRequest(Type.CHILD, 3),
+                        new TicketTypeRequest(Type.INFANT, 1)
+                )
+        );
+    }
 }
