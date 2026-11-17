@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -116,10 +117,16 @@ public class TicketValidatorTest {
         );
     }
 
-
-    @Test
-    void shouldRejectTicketCountExceedingMaxTicketLimit() {
-        TicketTypeCounts counts = new TicketTypeCounts(17, 6, 5);
+    @ParameterizedTest
+    @CsvSource({
+            "17, 6, 5",
+            "26, 0, 0"
+    })
+    void shouldRejectTicketCountExceedingMaxTicketLimit(
+            int adults,
+            int children,
+            int infants) {
+        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
