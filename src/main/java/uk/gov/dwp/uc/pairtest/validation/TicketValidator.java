@@ -18,7 +18,7 @@ public class TicketValidator {
 
     public void validateRequests(TicketTypeRequest... requests){
         if (requests == null || requests.length == 0) {
-            throw new InvalidPurchaseException(NO_TICKET_TYPE_REQUEST);
+            throw new InvalidPurchaseException(NULL_OR_EMPTY_TICKET_REQUESTS);
         }
     }
 }

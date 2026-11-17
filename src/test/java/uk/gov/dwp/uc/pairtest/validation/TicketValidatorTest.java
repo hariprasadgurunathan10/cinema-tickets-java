@@ -57,7 +57,7 @@ public class TicketValidatorTest {
         );
 
         assertEquals(
-                NO_TICKET_TYPE_REQUEST,
+                NULL_OR_EMPTY_TICKET_REQUESTS,
                 exception.getMessage()
         );
     }
