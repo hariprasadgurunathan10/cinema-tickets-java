@@ -2,14 +2,17 @@ package uk.gov.dwp.uc.pairtest.validation;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.NULL_ACCOUNT_ID;
 import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.INVALID_ACCOUNT_ID;
+import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.NO_TICKET_TYPE_REQUEST;
 
 public class TicketValidatorTest {
 
@@ -45,5 +48,19 @@ public class TicketValidatorTest {
     @Test
     void shouldAcceptPositiveAccountId() {
         assertDoesNotThrow(() -> validator.validateAccount(1L));
+    }
+
+    @ParameterizedTest
+    @NullAndEmptySource
+    void shouldRejectNullAndEmptyTicketTypeRequests(TicketTypeRequest[] requests) {
+        InvalidPurchaseException exception = assertThrows(
+                InvalidPurchaseException.class,
+                () -> validator.validateRequests(requests)
+        );
+
+        assertEquals(
+                NO_TICKET_TYPE_REQUEST,
+                exception.getMessage()
+        );
     }
 }
