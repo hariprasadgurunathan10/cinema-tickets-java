@@ -13,4 +13,5 @@ public final class TicketConstants {
     public static final String NULL_TICKET_REQUEST = "Enter a ticket type and quantity for each request";
     public static final String NULL_TICKET_TYPE = "Enter a ticket type";
     public static final String INVALID_NO_OF_TICKETS = "Number of tickets must be greater than 0";
+    public static final String TICKET_LIMIT_EXCEEDED = "You cannot purchase more than 25 tickets at a time";
 }

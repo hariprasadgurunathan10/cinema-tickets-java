@@ -1,6 +1,7 @@
 package uk.gov.dwp.uc.pairtest.validation;
 
 import com.sun.jdi.InconsistentDebugInfoException;
+import uk.gov.dwp.uc.pairtest.domain.TicketTypeCounts;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.*;
@@ -33,5 +34,8 @@ public class TicketValidator {
                 throw new InvalidPurchaseException(INVALID_NO_OF_TICKETS);
             }
         }
+    }
+
+    public void validatePurchase(TicketTypeCounts counts) {
     }
 }

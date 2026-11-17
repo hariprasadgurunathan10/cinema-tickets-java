@@ -12,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
+import uk.gov.dwp.uc.pairtest.domain.TicketTypeCounts;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest.Type;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
@@ -112,6 +113,22 @@ public class TicketValidatorTest {
                         new TicketTypeRequest(Type.CHILD, 3),
                         new TicketTypeRequest(Type.INFANT, 1)
                 )
+        );
+    }
+
+
+    @Test
+    void shouldRejectTicketCountExceedingMaxTicketLimit() {
+        TicketTypeCounts counts = new TicketTypeCounts(17, 6, 5);
+
+        InvalidPurchaseException exception = assertThrows(
+                InvalidPurchaseException.class,
+                () -> validator.validatePurchase(counts)
+        );
+
+        assertEquals(
+                TICKET_LIMIT_EXCEEDED,
+                exception.getMessage()
         );
     }
 }
