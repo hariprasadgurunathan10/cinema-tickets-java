@@ -157,7 +157,6 @@ public class TicketValidatorTest {
         );
     }
 
-
     @ParameterizedTest
     @CsvSource({
             "0, 2, 0",
@@ -181,4 +180,28 @@ public class TicketValidatorTest {
                 exception.getMessage()
         );
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "1, 0, 2",
+            "2, 5, 4"
+    })
+    void shouldRejectInfantCountExceedingAdultCount(
+            int adults,
+            int children,
+            int infants) {
+
+        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+
+        InvalidPurchaseException exception = assertThrows(
+                InvalidPurchaseException.class,
+                () -> validator.validatePurchase(counts)
+        );
+
+        assertEquals(
+                INFANT_COUNT_EXCEEDS_ADULT_COUNT,
+                exception.getMessage()
+        );
+    }
+
 }
