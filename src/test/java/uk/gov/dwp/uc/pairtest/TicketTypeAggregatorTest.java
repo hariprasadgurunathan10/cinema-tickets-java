@@ -52,7 +52,7 @@ public class TicketTypeAggregatorTest {
                                 new TicketTypeRequest(Type.INFANT, 5),
                                 new TicketTypeRequest(Type.INFANT, 2)
                         },
-                        5, 3, 0
+                        8, 5, 7
                 ),
                 arguments(
                         new TicketTypeRequest[]{
