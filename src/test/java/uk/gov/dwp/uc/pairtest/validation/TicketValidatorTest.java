@@ -138,4 +138,22 @@ public class TicketValidatorTest {
                 exception.getMessage()
         );
     }
+
+    @ParameterizedTest
+    @CsvSource({
+            "10, 0, 0",
+            "5, 5, 2",
+            "20, 4, 1",
+            "25, 0, 0"
+    })
+    void shouldAcceptTicketCountsWithinAllowedLimit(
+            int adults,
+            int children,
+            int infants) {
+        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+
+        assertDoesNotThrow(
+                () -> validator.validatePurchase(counts)
+        );
+    }
 }
