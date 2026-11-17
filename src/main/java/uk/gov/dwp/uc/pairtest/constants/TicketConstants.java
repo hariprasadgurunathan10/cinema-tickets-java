@@ -10,4 +10,7 @@ public final class TicketConstants {
     public static final String NULL_ACCOUNT_ID = "Enter an account ID";
     public static final String INVALID_ACCOUNT_ID = "Account ID must be greater than 0";
     public static final String NULL_OR_EMPTY_TICKET_REQUESTS = "At least one ticket request is required";
+    public static final String NULL_TICKET_REQUEST = "Enter a ticket type and quantity for each request";
+    public static final String NULL_TICKET_TYPE = "Enter a ticket type";
+    public static final String INVALID_NO_OF_TICKETS = "Number of tickets must be greater than 0";
 }
