@@ -10,9 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
-import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.NULL_ACCOUNT_ID;
-import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.INVALID_ACCOUNT_ID;
-import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.NO_TICKET_TYPE_REQUEST;
+import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.*;
 
 public class TicketValidatorTest {
 
