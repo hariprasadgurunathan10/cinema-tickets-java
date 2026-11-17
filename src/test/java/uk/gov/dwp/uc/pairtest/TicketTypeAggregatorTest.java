@@ -75,8 +75,8 @@ public class TicketTypeAggregatorTest {
 
         TicketTypeCounts counts = aggregator.aggregate(requests);
 
-        assertEquals(expectedAdults, counts.getAdults());
-        assertEquals(expectedChildren, counts.getChildren());
-        assertEquals(expectedInfants, counts.getInfants());
+        assertEquals(expectedAdults, counts.adults());
+        assertEquals(expectedChildren, counts.children());
+        assertEquals(expectedInfants, counts.infants());
     }
 }
