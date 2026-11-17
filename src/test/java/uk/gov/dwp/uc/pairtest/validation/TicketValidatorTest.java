@@ -156,4 +156,29 @@ public class TicketValidatorTest {
                 () -> validator.validatePurchase(counts)
         );
     }
+
+
+    @ParameterizedTest
+    @CsvSource({
+            "0, 2, 0",
+            "0, 0, 1",
+            "0, 3, 2"
+    })
+    void shouldRejectChildOrInfantTicketsWithoutAdult(
+            int adults,
+            int children,
+            int infants) {
+
+        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+
+        InvalidPurchaseException exception = assertThrows(
+                InvalidPurchaseException.class,
+                () -> validator.validatePurchase(counts)
+        );
+
+        assertEquals(
+                ADULT_TICKET_REQUIRED,
+                exception.getMessage()
+        );
+    }
 }
