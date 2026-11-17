@@ -44,5 +44,10 @@ public class TicketValidator {
         if(totalTicketCount > MAX_TICKET_LIMIT) {
             throw new InvalidPurchaseException(TICKET_LIMIT_EXCEEDED);
         }
+
+        if (adultTicketCount == 0
+                && (childrenTicketCount > 0 || infantTicketCount > 0)) {
+            throw new InvalidPurchaseException(ADULT_TICKET_REQUIRED);
+        }
     }
 }
