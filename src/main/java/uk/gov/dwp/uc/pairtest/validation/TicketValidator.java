@@ -1,6 +1,5 @@
 package uk.gov.dwp.uc.pairtest.validation;
 
-import com.sun.jdi.InconsistentDebugInfoException;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeCounts;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
@@ -37,5 +36,13 @@ public class TicketValidator {
     }
 
     public void validatePurchase(TicketTypeCounts counts) {
+        int adultTicketCount = counts.adults();
+        int childrenTicketCount = counts.children();
+        int infantTicketCount = counts.infants();
+        int totalTicketCount = adultTicketCount + childrenTicketCount + infantTicketCount;
+
+        if(totalTicketCount > MAX_TICKET_LIMIT) {
+            throw new InvalidPurchaseException(TICKET_LIMIT_EXCEEDED);
+        }
     }
 }
