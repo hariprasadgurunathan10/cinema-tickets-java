@@ -49,5 +49,9 @@ public class TicketValidator {
                 && (childrenTicketCount > 0 || infantTicketCount > 0)) {
             throw new InvalidPurchaseException(ADULT_TICKET_REQUIRED);
         }
+
+        if (infantTicketCount > adultTicketCount) {
+            throw new InvalidPurchaseException(INFANT_COUNT_EXCEEDS_ADULT_COUNT);
+        }
     }
 }
