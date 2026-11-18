@@ -21,6 +21,7 @@ public final class TicketConstants {
             "At least one adult ticket is required when purchasing child or infant tickets";
     public static final String INFANT_COUNT_EXCEEDS_ADULT_COUNT =
             "Each infant must be accompanied by a separate adult";
+    public static final String NULL_TICKET_COUNTS = "Ticket counts are required";
 
     // Ticket purchase limits
     public static final int MAX_TICKET_LIMIT = 25;

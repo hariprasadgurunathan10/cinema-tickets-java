@@ -150,6 +150,24 @@ public class TicketValidatorTest {
         );
     }
 
+
+    /**
+     * Verifies that the validator handles null ticket counts when called directly.
+     * Null ticket counts must be rejected with the expected validation error message.
+     */
+    @Test
+    void shouldRejectNullTicketCounts() {
+        InvalidPurchaseException exception = assertThrows(
+                InvalidPurchaseException.class,
+                () -> validator.validateTicketCounts(null)
+        );
+
+        assertEquals(
+                NULL_TICKET_COUNTS,
+                exception.getMessage()
+        );
+    }
+
     /**
      * Verifies that a purchase cannot exceed the maximum limit of 25 tickets.
      * Purchases exceeding this limit must be rejected with the expected validation error message.
