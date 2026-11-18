@@ -156,7 +156,22 @@ public class TicketServiceImplTest {
                 arguments(
                         123L,
                         new TicketTypeRequest[]{
+                                new TicketTypeRequest(Type.ADULT, Integer.MIN_VALUE)
+                        },
+                        INVALID_NO_OF_TICKETS
+                ),
+                arguments(
+                        123L,
+                        new TicketTypeRequest[]{
                                 new TicketTypeRequest(Type.ADULT, 26)
+                        },
+                        TICKET_LIMIT_EXCEEDED
+                ),
+                arguments(
+                        123L,
+                        new TicketTypeRequest[]{
+                                new TicketTypeRequest(Type.ADULT, 20),
+                                new TicketTypeRequest(Type.CHILD, Integer.MAX_VALUE)
                         },
                         TICKET_LIMIT_EXCEEDED
                 ),

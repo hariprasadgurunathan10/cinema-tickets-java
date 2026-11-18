@@ -74,7 +74,10 @@ public class TicketValidatorTest {
                 arguments(null, NULL_TICKET_REQUEST),
                 arguments(new TicketTypeRequest(null, 1), NULL_TICKET_TYPE),
                 arguments(new TicketTypeRequest(Type.ADULT, 0), INVALID_NO_OF_TICKETS),
-                arguments(new TicketTypeRequest(Type.ADULT, -1), INVALID_NO_OF_TICKETS)
+                arguments(new TicketTypeRequest(Type.ADULT, -1), INVALID_NO_OF_TICKETS),
+                arguments(new TicketTypeRequest(Type.ADULT, Integer.MIN_VALUE), INVALID_NO_OF_TICKETS),
+                arguments(new TicketTypeRequest(Type.ADULT, 26), TICKET_LIMIT_EXCEEDED),
+                arguments(new TicketTypeRequest(Type.CHILD, Integer.MAX_VALUE), TICKET_LIMIT_EXCEEDED)
         );
     }
 
