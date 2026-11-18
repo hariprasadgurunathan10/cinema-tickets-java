@@ -56,13 +56,17 @@ public class TicketValidator {
     }
 
     /**
-     * Validates the total does not exceed the ticket limit, that child or infant
-     * tickets are accompanied by an adult, and that infants do not outnumber adults.
+     * Validates that ticket counts are not null, the total does not exceed the ticket limit, 
+     * that child or infant tickets are accompanied by an adult, and that infants do not outnumber adults.
      *
      * @param ticketTypeCounts the aggregated ticket counts to validate
      * @throws InvalidPurchaseException if any purchase validation rule is violated
      */
     public void validateTicketCounts(TicketTypeCounts ticketTypeCounts) {
+        if (ticketTypeCounts == null) {
+            throw new InvalidPurchaseException(NULL_TICKET_COUNTS);
+        }
+
         int adultTicketCount = ticketTypeCounts.adults();
         int childTicketCount = ticketTypeCounts.children();
         int infantTicketCount = ticketTypeCounts.infants();
