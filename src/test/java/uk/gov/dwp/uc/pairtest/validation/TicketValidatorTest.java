@@ -294,4 +294,16 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that the ticket count validator handles zero ticket counts
+     * when called directly, without throwing an exception.
+     */
+    @Test
+    void shouldAcceptZeroTicketCounts() {
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(0, 0, 0);
+
+        assertDoesNotThrow(
+                () -> validator.validateTicketCounts(ticketTypeCounts)
+        );
+    }
 }
