@@ -37,12 +37,12 @@ public class TicketServiceImpl implements TicketService {
             TicketTypeRequest... ticketTypeRequests)
             throws InvalidPurchaseException {
         ticketValidator.validateAccount(accountId);
-        ticketValidator.validateRequests(ticketTypeRequests);
+        ticketValidator.validateTicketRequests(ticketTypeRequests);
 
-        TicketTypeCounts ticketTypeCounts = ticketTypeAggregator.aggregate(ticketTypeRequests);
-        ticketValidator.validatePurchase(ticketTypeCounts);
+        TicketTypeCounts ticketTypeCounts = ticketTypeAggregator.aggregateTicketCountsByType(ticketTypeRequests);
+        ticketValidator.validateTicketCounts(ticketTypeCounts);
 
-        PurchaseTotals purchaseTotals = ticketPurchaseCalculator.calculate(ticketTypeCounts);
+        PurchaseTotals purchaseTotals = ticketPurchaseCalculator.calculatePurchaseTotals(ticketTypeCounts);
 
         paymentService.makePayment(accountId, purchaseTotals.amountToPay());
         seatReservationService.reserveSeat(accountId, purchaseTotals.seatsToReserve());

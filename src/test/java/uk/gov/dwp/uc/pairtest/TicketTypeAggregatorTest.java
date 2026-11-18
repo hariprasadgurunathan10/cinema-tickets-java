@@ -68,15 +68,15 @@ public class TicketTypeAggregatorTest {
     @ParameterizedTest
     @MethodSource("ticketRequests")
     void shouldAggregateTicketCounts(
-            TicketTypeRequest[] requests,
-            int expectedAdults,
-            int expectedChildren,
-            int expectedInfants) {
+            TicketTypeRequest[] ticketTypeRequests,
+            int expectedAdultTicketCount,
+            int expectedChildTicketCount,
+            int expectedInfantTicketCount) {
 
-        TicketTypeCounts counts = aggregator.aggregate(requests);
+        TicketTypeCounts ticketTypeCounts = aggregator.aggregateTicketCountsByType(ticketTypeRequests);
 
-        assertEquals(expectedAdults, counts.adults());
-        assertEquals(expectedChildren, counts.children());
-        assertEquals(expectedInfants, counts.infants());
+        assertEquals(expectedAdultTicketCount, ticketTypeCounts.adults());
+        assertEquals(expectedChildTicketCount, ticketTypeCounts.children());
+        assertEquals(expectedInfantTicketCount, ticketTypeCounts.infants());
     }
 }

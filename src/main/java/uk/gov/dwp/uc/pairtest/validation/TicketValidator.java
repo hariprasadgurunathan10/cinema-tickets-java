@@ -17,20 +17,20 @@ public class TicketValidator {
         }
     }
 
-    public void validateRequests(TicketTypeRequest... requests){
-        if (requests == null || requests.length == 0) {
+    public void validateTicketRequests(TicketTypeRequest... ticketTypeRequests){
+        if (ticketTypeRequests == null || ticketTypeRequests.length == 0) {
             throw new InvalidPurchaseException(NULL_OR_EMPTY_TICKET_REQUESTS);
         }
 
-        for(TicketTypeRequest request : requests){
-            if(request == null){
+        for(TicketTypeRequest ticketTypeRequest : ticketTypeRequests){
+            if(ticketTypeRequest == null){
                 throw new InvalidPurchaseException(NULL_TICKET_REQUEST);
             }
-            if(request.getTicketType() == null){
+            if(ticketTypeRequest.getTicketType() == null){
                 throw new InvalidPurchaseException(NULL_TICKET_TYPE);
             }
 
-            int noOfTickets = request.getNoOfTickets();
+            int noOfTickets = ticketTypeRequest.getNoOfTickets();
             if(noOfTickets <= 0){
                 throw new InvalidPurchaseException(INVALID_NO_OF_TICKETS);
             }
@@ -38,15 +38,15 @@ public class TicketValidator {
         }
     }
 
-    public void validatePurchase(TicketTypeCounts counts) {
-        int adultTicketCount = counts.adults();
-        int childrenTicketCount = counts.children();
-        int infantTicketCount = counts.infants();
+    public void validateTicketCounts(TicketTypeCounts ticketTypeCounts) {
+        int adultTicketCount = ticketTypeCounts.adults();
+        int childTicketCount = ticketTypeCounts.children();
+        int infantTicketCount = ticketTypeCounts.infants();
 
-        validateTicketLimit(adultTicketCount + childrenTicketCount + infantTicketCount);
+        validateTicketLimit(adultTicketCount + childTicketCount + infantTicketCount);
 
         if (adultTicketCount == 0
-                && (childrenTicketCount > 0 || infantTicketCount > 0)) {
+                && (childTicketCount > 0 || infantTicketCount > 0)) {
             throw new InvalidPurchaseException(ADULT_TICKET_REQUIRED);
         }
 

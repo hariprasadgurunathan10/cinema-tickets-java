@@ -4,19 +4,19 @@ import uk.gov.dwp.uc.pairtest.domain.TicketTypeCounts;
 import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 
 public class TicketTypeAggregator {
-    public TicketTypeCounts aggregate(TicketTypeRequest... requests){
-        int adults = 0;
-        int children = 0;
-        int infants = 0;
+    public TicketTypeCounts aggregateTicketCountsByType(TicketTypeRequest... ticketTypeRequests){
+        int adultTicketCount = 0;
+        int childTicketCount = 0;
+        int infantTicketCount = 0;
 
-        for (TicketTypeRequest request : requests) {
-            switch (request.getTicketType()) {
-                case ADULT -> adults += request.getNoOfTickets();
-                case CHILD -> children += request.getNoOfTickets();
-                case INFANT -> infants += request.getNoOfTickets();
+        for (TicketTypeRequest ticketTypeRequest : ticketTypeRequests) {
+            switch (ticketTypeRequest.getTicketType()) {
+                case ADULT -> adultTicketCount += ticketTypeRequest.getNoOfTickets();
+                case CHILD -> childTicketCount += ticketTypeRequest.getNoOfTickets();
+                case INFANT -> infantTicketCount += ticketTypeRequest.getNoOfTickets();
             }
         }
 
-        return new TicketTypeCounts(adults, children, infants);
+        return new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
     }
 }

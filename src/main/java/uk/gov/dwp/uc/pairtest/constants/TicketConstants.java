@@ -23,7 +23,7 @@ public final class TicketConstants {
     public static final int MAX_TICKET_LIMIT = 25;
 
     // Ticket prices based on ticket type
-    public static final int ADULT_PRICE = 25;
-    public static final int CHILD_PRICE = 15;
-    public static final int INFANT_PRICE = 0;
+    public static final int ADULT_TICKET_PRICE = 25;
+    public static final int CHILD_TICKET_PRICE = 15;
+    public static final int INFANT_TICKET_PRICE = 0;
 }

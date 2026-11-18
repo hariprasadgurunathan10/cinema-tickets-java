@@ -19,17 +19,17 @@ public class TicketPurchaseCalculatorTest {
             "2, 3, 1, 95, 5"
     })
     void shouldCalculatePurchaseTotals(
-            int adults,
-            int children,
-            int infants,
-            int expectedAmount,
-            int expectedSeats) {
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount,
+            int expectedAmountToPay,
+            int expectedSeatsToReserve) {
 
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
-        PurchaseTotals totals = calculator.calculate(counts);
+        PurchaseTotals purchaseTotals = calculator.calculatePurchaseTotals(ticketTypeCounts);
 
-        assertEquals(expectedAmount, totals.amountToPay());
-        assertEquals(expectedSeats, totals.seatsToReserve());
+        assertEquals(expectedAmountToPay, purchaseTotals.amountToPay());
+        assertEquals(expectedSeatsToReserve, purchaseTotals.seatsToReserve());
     }
 }

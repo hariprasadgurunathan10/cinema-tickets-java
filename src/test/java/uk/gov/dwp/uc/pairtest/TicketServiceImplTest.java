@@ -81,16 +81,16 @@ public class TicketServiceImplTest {
     @ParameterizedTest
     @MethodSource("validTicketPurchases")
     void shouldProcessValidTicketPurchases(
-            TicketTypeRequest[] requests,
-            int expectedAmount,
-            int expectedSeats) {
+            TicketTypeRequest[] ticketTypeRequests,
+            int expectedAmountToPay,
+            int expectedSeatsToReserve) {
 
         long accountId = 123L;
 
-        ticketService.purchaseTickets(accountId, requests);
+        ticketService.purchaseTickets(accountId, ticketTypeRequests);
 
-        verify(paymentService).makePayment(accountId, expectedAmount);
-        verify(seatReservationService).reserveSeat(accountId, expectedSeats);
+        verify(paymentService).makePayment(accountId, expectedAmountToPay);
+        verify(seatReservationService).reserveSeat(accountId, expectedSeatsToReserve);
     }
 
 
@@ -204,12 +204,12 @@ public class TicketServiceImplTest {
     @MethodSource("invalidTicketPurchases")
     void shouldRejectInvalidPurchasesWithoutCallingExternalServices(
             Long accountId,
-            TicketTypeRequest[] requests,
+            TicketTypeRequest[] ticketTypeRequests,
             String expectedErrorMessage) {
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> ticketService.purchaseTickets(accountId, requests)
+                () -> ticketService.purchaseTickets(accountId, ticketTypeRequests)
         );
 
         assertEquals(expectedErrorMessage, exception.getMessage());

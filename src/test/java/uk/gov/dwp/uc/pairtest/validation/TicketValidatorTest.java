@@ -57,10 +57,10 @@ public class TicketValidatorTest {
 
     @ParameterizedTest
     @NullAndEmptySource
-    void shouldRejectNullAndEmptyTicketTypeRequests(TicketTypeRequest[] requests) {
+    void shouldRejectNullAndEmptyTicketTypeRequests(TicketTypeRequest[] ticketTypeRequests) {
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> validator.validateRequests(requests)
+                () -> validator.validateTicketRequests(ticketTypeRequests)
         );
 
         assertEquals(
@@ -84,13 +84,13 @@ public class TicketValidatorTest {
     @ParameterizedTest
     @MethodSource("invalidTicketRequests")
     void shouldRejectInvalidTicketRequests(
-            TicketTypeRequest request,
+            TicketTypeRequest ticketTypeRequest,
             String expectedErrorMessage) {
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> validator.validateRequests(
-                        new TicketTypeRequest[]{request}
+                () -> validator.validateTicketRequests(
+                        new TicketTypeRequest[]{ticketTypeRequest}
                 )
         );
 
@@ -103,8 +103,8 @@ public class TicketValidatorTest {
     @Test
     void shouldAcceptSingleValidTicketRequest() {
         assertDoesNotThrow(
-                () -> validator.validateRequests(
-                        new TicketTypeRequest(Type.ADULT, 1)
+                () -> validator.validateTicketRequests(
+                        new TicketTypeRequest[]{new TicketTypeRequest(Type.ADULT, 1)}
                 )
         );
     }
@@ -112,10 +112,10 @@ public class TicketValidatorTest {
     @Test
     void shouldAcceptMultipleValidTicketRequests() {
         assertDoesNotThrow(
-                () -> validator.validateRequests(
-                        new TicketTypeRequest(Type.ADULT, 2),
+                () -> validator.validateTicketRequests(
+                        new TicketTypeRequest[]{new TicketTypeRequest(Type.ADULT, 2),
                         new TicketTypeRequest(Type.CHILD, 3),
-                        new TicketTypeRequest(Type.INFANT, 1)
+                        new TicketTypeRequest(Type.INFANT, 1)}
                 )
         );
     }
@@ -126,14 +126,14 @@ public class TicketValidatorTest {
             "26, 0, 0"
     })
     void shouldRejectTicketCountExceedingMaxTicketLimit(
-            int adults,
-            int children,
-            int infants) {
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount) {
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> validator.validatePurchase(counts)
+                () -> validator.validateTicketCounts(ticketTypeCounts)
         );
 
         assertEquals(
@@ -150,13 +150,13 @@ public class TicketValidatorTest {
             "25, 0, 0"
     })
     void shouldAcceptTicketCountsWithinAllowedLimit(
-            int adults,
-            int children,
-            int infants) {
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount) {
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
         assertDoesNotThrow(
-                () -> validator.validatePurchase(counts)
+                () -> validator.validateTicketCounts(ticketTypeCounts)
         );
     }
 
@@ -167,15 +167,15 @@ public class TicketValidatorTest {
             "0, 3, 2"
     })
     void shouldRejectChildOrInfantTicketsWithoutAdult(
-            int adults,
-            int children,
-            int infants) {
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount) {
 
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> validator.validatePurchase(counts)
+                () -> validator.validateTicketCounts(ticketTypeCounts)
         );
 
         assertEquals(
@@ -190,15 +190,15 @@ public class TicketValidatorTest {
             "2, 5, 4"
     })
     void shouldRejectInfantCountExceedingAdultCount(
-            int adults,
-            int children,
-            int infants) {
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount) {
 
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
         InvalidPurchaseException exception = assertThrows(
                 InvalidPurchaseException.class,
-                () -> validator.validatePurchase(counts)
+                () -> validator.validateTicketCounts(ticketTypeCounts)
         );
 
         assertEquals(
@@ -214,14 +214,14 @@ public class TicketValidatorTest {
             "10, 5, 0"
     })
     void shouldAcceptInfantCountNotExceedingAdultCount(
-            int adults,
-            int children,
-            int infants) {
+            int adultTicketCount,
+            int childTicketCount,
+            int infantTicketCount) {
 
-        TicketTypeCounts counts = new TicketTypeCounts(adults, children, infants);
+        TicketTypeCounts ticketTypeCounts = new TicketTypeCounts(adultTicketCount, childTicketCount, infantTicketCount);
 
         assertDoesNotThrow(
-                () -> validator.validatePurchase(counts)
+                () -> validator.validateTicketCounts(ticketTypeCounts)
         );
     }
 
