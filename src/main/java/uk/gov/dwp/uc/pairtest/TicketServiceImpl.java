@@ -8,6 +8,10 @@ import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import uk.gov.dwp.uc.pairtest.validation.TicketValidator;
 
+/**
+ * Implements {@link TicketService} by coordinating ticket validation,
+ * calculating purchase totals, processing payment, and reserving seats.
+ */
 public class TicketServiceImpl implements TicketService {
 
     private final TicketPaymentService paymentService;
@@ -16,6 +20,10 @@ public class TicketServiceImpl implements TicketService {
     private final TicketTypeAggregator ticketTypeAggregator;
     private final TicketPurchaseCalculator ticketPurchaseCalculator;
 
+    /**
+     * @param paymentService         the service used to process payments
+     * @param seatReservationService the service used to reserve seats
+     */
     public TicketServiceImpl(
             TicketPaymentService paymentService,
             SeatReservationService seatReservationService) {
@@ -28,9 +36,8 @@ public class TicketServiceImpl implements TicketService {
     }
 
     /**
-     * Should only have private methods other than the one below.
+     * {@inheritDoc}
      */
-
     @Override
     public void purchaseTickets(
             Long accountId,

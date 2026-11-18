@@ -5,8 +5,17 @@ import uk.gov.dwp.uc.pairtest.domain.TicketTypeRequest;
 import uk.gov.dwp.uc.pairtest.exception.InvalidPurchaseException;
 import static uk.gov.dwp.uc.pairtest.constants.TicketConstants.*;
 
+/**
+ * Validates account IDs, ticket requests and aggregated ticket counts.
+ */
 public class TicketValidator {
 
+    /**
+     * Validates that the account ID is present and is greater than zero.
+     * 
+     * @param accountId the account ID to validate
+     * @throws InvalidPurchaseException if the ID is null or not greater than zero
+     */
     public void validateAccount(Long accountId){
         if(accountId == null){
             throw new InvalidPurchaseException(NULL_ACCOUNT_ID);
@@ -17,6 +26,14 @@ public class TicketValidator {
         }
     }
 
+    /**
+     * Validates that ticket requests are present and contain a valid ticket type
+     * and a positive ticket count within the maximum ticket limit.
+     *
+     * @param ticketTypeRequests the ticket requests to validate
+     * @throws InvalidPurchaseException if the ticket requests are null or empty,
+     *                                  or any ticket request violates a validation rule
+     */
     public void validateTicketRequests(TicketTypeRequest... ticketTypeRequests){
         if (ticketTypeRequests == null || ticketTypeRequests.length == 0) {
             throw new InvalidPurchaseException(NULL_OR_EMPTY_TICKET_REQUESTS);
@@ -38,6 +55,13 @@ public class TicketValidator {
         }
     }
 
+    /**
+     * Validates the total does not exceed the ticket limit, that child or infant
+     * tickets are accompanied by an adult, and that infants do not outnumber adults.
+     *
+     * @param ticketTypeCounts the aggregated ticket counts to validate
+     * @throws InvalidPurchaseException if any purchase validation rule is violated
+     */
     public void validateTicketCounts(TicketTypeCounts ticketTypeCounts) {
         int adultTicketCount = ticketTypeCounts.adults();
         int childTicketCount = ticketTypeCounts.children();

@@ -1,12 +1,15 @@
 package uk.gov.dwp.uc.pairtest.constants;
 
+/**
+ * Defines validation error messages, purchase limits, and ticket prices.
+ */
 public final class TicketConstants {
 
     private TicketConstants(){
         // Prevents instantiation
     }
 
-    // Error messages
+    // Validation error messages
     public static final String NULL_ACCOUNT_ID = "Enter an account ID";
     public static final String INVALID_ACCOUNT_ID = "Account ID must be greater than 0";
     public static final String NULL_OR_EMPTY_TICKET_REQUESTS = "At least one ticket request is required";
@@ -22,7 +25,7 @@ public final class TicketConstants {
     // Ticket purchase limits
     public static final int MAX_TICKET_LIMIT = 25;
 
-    // Ticket prices based on ticket type
+    // Ticket prices in GBP for each ticket type
     public static final int ADULT_TICKET_PRICE = 25;
     public static final int CHILD_TICKET_PRICE = 15;
     public static final int INFANT_TICKET_PRICE = 0;
