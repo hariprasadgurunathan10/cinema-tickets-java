@@ -78,6 +78,11 @@ public class TicketServiceImplTest {
         );
     }
 
+    /**
+     * Verifies that valid purchases invoke payment and seat reservation services.
+     * The payment service should receive the calculated amount, while the seat reservation
+     * service should receive the required number of seats.
+     */
     @ParameterizedTest
     @MethodSource("validTicketPurchases")
     void shouldProcessValidTicketPurchases(
@@ -200,6 +205,10 @@ public class TicketServiceImplTest {
         );
     }
 
+    /**
+     * Verifies that invalid ticket purchases are rejected during validation with the expected error message.
+     * Payment and seat reservation services must not be called for rejected purchases.
+     */
     @ParameterizedTest
     @MethodSource("invalidTicketPurchases")
     void shouldRejectInvalidPurchasesWithoutCallingExternalServices(

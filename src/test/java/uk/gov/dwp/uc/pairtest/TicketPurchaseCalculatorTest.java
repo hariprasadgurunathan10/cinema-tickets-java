@@ -11,6 +11,10 @@ public class TicketPurchaseCalculatorTest {
     private final TicketPurchaseCalculator calculator = new TicketPurchaseCalculator();
 
 
+    /**
+     * Verifies total ticket price and number of seats calculations for different ticket combinations.
+     * Infant tickets should not contribute to the total price or require reserved seats.
+     */
     @ParameterizedTest
     @CsvSource({
             "2, 0, 0, 50, 2",

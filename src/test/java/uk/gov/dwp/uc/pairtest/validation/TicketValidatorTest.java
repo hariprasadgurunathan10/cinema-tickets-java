@@ -23,6 +23,10 @@ public class TicketValidatorTest {
 
     private final TicketValidator validator = new TicketValidator();
 
+    /**
+     * Verifies that an account ID is required.
+     * A null account ID must be rejected with the expected validation error message.
+     */
     @Test
     void shouldRejectNullAccountId() {
         InvalidPurchaseException exception = assertThrows(
@@ -36,6 +40,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that account IDs must be greater than zero.
+     * Zero and negative account IDs must be rejected with the expected validation error message.
+     */
     @ParameterizedTest
     @ValueSource(longs = {0L, -1L})
     void shouldRejectZeroAndNegativeAccountIds(long accountId) {
@@ -50,11 +58,19 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that a positive account ID is accepted.
+     * The valid account ID of 1 must pass validation without throwing an exception.
+     */
     @Test
     void shouldAcceptPositiveAccountId() {
         assertDoesNotThrow(() -> validator.validateAccount(1L));
     }
 
+    /**
+     * Verifies that at least one ticket request is required.
+     * Null or empty ticket request arrays must be rejected with the expected validation error message.
+     */
     @ParameterizedTest
     @NullAndEmptySource
     void shouldRejectNullAndEmptyTicketTypeRequests(TicketTypeRequest[] ticketTypeRequests) {
@@ -81,6 +97,11 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that ticket requests must have a valid ticket type and a ticket count between 1 and 25.
+     * Null requests, missing ticket types, and counts outside this range must be rejected
+     * with the expected validation error message.
+     */
     @ParameterizedTest
     @MethodSource("invalidTicketRequests")
     void shouldRejectInvalidTicketRequests(
@@ -100,6 +121,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that a single ticket request with a valid type and quantity is accepted.
+     * A request for one adult ticket must pass validation without throwing an exception.
+     */
     @Test
     void shouldAcceptSingleValidTicketRequest() {
         assertDoesNotThrow(
@@ -109,6 +134,11 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that multiple ticket requests with valid types and quantities are accepted.
+     * A combination of adult, child, and infant tickets must pass validation
+     * without throwing an exception.
+     */
     @Test
     void shouldAcceptMultipleValidTicketRequests() {
         assertDoesNotThrow(
@@ -120,6 +150,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that a purchase cannot exceed the maximum limit of 25 tickets.
+     * Purchases exceeding this limit must be rejected with the expected validation error message.
+     */
     @ParameterizedTest
     @CsvSource({
             "17, 6, 5",
@@ -142,6 +176,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies that valid ticket combinations within the maximum ticket limit of 25
+     * are accepted without throwing an exception.
+     */
     @ParameterizedTest
     @CsvSource({
             "10, 0, 0",
@@ -160,6 +198,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies the requirement for adult accompaniment.
+     * Purchases containing child or infant tickets without an adult ticket must be rejected.
+     */
     @ParameterizedTest
     @CsvSource({
             "0, 2, 0",
@@ -184,6 +226,10 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies the requirement for one adult per infant.
+     * Purchases containing more infant tickets than adult tickets must be rejected.
+     */
     @ParameterizedTest
     @CsvSource({
             "1, 0, 2",
@@ -207,6 +253,11 @@ public class TicketValidatorTest {
         );
     }
 
+    /**
+     * Verifies the requirement for one adult per infant.
+     * Purchases with infant ticket counts equal to or below adult ticket counts
+     * must be accepted.
+     */
     @ParameterizedTest
     @CsvSource({
             "2, 0, 2",

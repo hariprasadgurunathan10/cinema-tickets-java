@@ -65,6 +65,10 @@ public class TicketTypeAggregatorTest {
         );
     }
 
+    /**
+     * Verifies that ticket requests are aggregated by type.
+     * Multiple requests of the same type should be summed correctly, regardless of their order.
+     */
     @ParameterizedTest
     @MethodSource("ticketRequests")
     void shouldAggregateTicketCounts(
