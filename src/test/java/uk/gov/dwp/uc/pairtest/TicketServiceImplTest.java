@@ -2,7 +2,6 @@ package uk.gov.dwp.uc.pairtest;
 
 import java.util.stream.Stream;
 
-import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,21 +30,14 @@ public class TicketServiceImplTest {
     private final TicketServiceImpl ticketService =
             new TicketServiceImpl(paymentService, seatReservationService);
 
-    @Test
-    void shouldProcessValidTicketPurchase() {
-        long accountId = 123L;
-
-        TicketTypeRequest request =
-                new TicketTypeRequest(Type.ADULT, 2);
-
-        ticketService.purchaseTickets(accountId, request);
-
-        verify(paymentService).makePayment(accountId, 50);
-        verify(seatReservationService).reserveSeat(accountId, 2);
-    }
-
     private static Stream<Arguments> validTicketPurchases() {
         return Stream.of(
+                arguments(
+                        new TicketTypeRequest[]{
+                                new TicketTypeRequest(Type.ADULT, 2)
+                        },
+                        50, 2
+                ),
                 arguments(
                         new TicketTypeRequest[]{
                                 new TicketTypeRequest(Type.ADULT, 2),
@@ -157,6 +149,13 @@ public class TicketServiceImplTest {
                 arguments(
                         123L,
                         new TicketTypeRequest[]{
+                                new TicketTypeRequest(Type.ADULT, -1)
+                        },
+                        INVALID_NO_OF_TICKETS
+                ),
+                arguments(
+                        123L,
+                        new TicketTypeRequest[]{
                                 new TicketTypeRequest(Type.ADULT, 26)
                         },
                         TICKET_LIMIT_EXCEEDED
@@ -165,6 +164,13 @@ public class TicketServiceImplTest {
                         123L,
                         new TicketTypeRequest[]{
                                 new TicketTypeRequest(Type.CHILD, 2)
+                        },
+                        ADULT_TICKET_REQUIRED
+                ),
+                arguments(
+                        123L,
+                        new TicketTypeRequest[]{
+                                new TicketTypeRequest(Type.INFANT, 1)
                         },
                         ADULT_TICKET_REQUIRED
                 ),
