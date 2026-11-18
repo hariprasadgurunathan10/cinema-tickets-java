@@ -29,9 +29,12 @@ public class TicketValidator {
             if(request.getTicketType() == null){
                 throw new InvalidPurchaseException(NULL_TICKET_TYPE);
             }
-            if(request.getNoOfTickets() <= 0){
+
+            int noOfTickets = request.getNoOfTickets();
+            if(noOfTickets <= 0){
                 throw new InvalidPurchaseException(INVALID_NO_OF_TICKETS);
             }
+            validateTicketLimit(noOfTickets);
         }
     }
 
@@ -39,11 +42,8 @@ public class TicketValidator {
         int adultTicketCount = counts.adults();
         int childrenTicketCount = counts.children();
         int infantTicketCount = counts.infants();
-        int totalTicketCount = adultTicketCount + childrenTicketCount + infantTicketCount;
 
-        if(totalTicketCount > MAX_TICKET_LIMIT) {
-            throw new InvalidPurchaseException(TICKET_LIMIT_EXCEEDED);
-        }
+        validateTicketLimit(adultTicketCount + childrenTicketCount + infantTicketCount);
 
         if (adultTicketCount == 0
                 && (childrenTicketCount > 0 || infantTicketCount > 0)) {
@@ -52,6 +52,12 @@ public class TicketValidator {
 
         if (infantTicketCount > adultTicketCount) {
             throw new InvalidPurchaseException(INFANT_COUNT_EXCEEDS_ADULT_COUNT);
+        }
+    }
+
+    private void validateTicketLimit(int ticketCount) {
+        if (ticketCount > MAX_TICKET_LIMIT) {
+            throw new InvalidPurchaseException(TICKET_LIMIT_EXCEEDED);
         }
     }
 }
